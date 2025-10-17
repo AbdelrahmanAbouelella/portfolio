@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Dialog, DialogContent } from "./ui/dialog";
 
 type CalendlyModalProps = {
@@ -28,4 +27,3 @@ export function CalendlyModal({ open, onClose, url }: CalendlyModalProps) {
 }
 
 export default CalendlyModal;
-
