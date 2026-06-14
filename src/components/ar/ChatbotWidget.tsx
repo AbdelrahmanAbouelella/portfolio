@@ -1,8 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MessageSquare, X, Send, ChevronDown } from 'lucide-react';
+import { getLocalReply, tryAiReply, type Lang } from '../../lib/assistant';
 
 const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
+
+const UI_LANG: Lang = 'ar';
 
 interface QuickAction {
   id: string;
@@ -10,115 +13,17 @@ interface QuickAction {
 }
 
 const QUICK_ACTIONS: QuickAction[] = [
-  { id: 'build', label: 'ماذا يمكنك أن تبني؟' },
-  { id: 'projects', label: 'اعرض الأنظمة' },
-  { id: 'process', label: 'ما طريقة العمل؟' },
-  { id: 'contact', label: 'كيف أتواصل مع عبد الرحمن؟' },
+  { id: 'build', label: 'عبد الرحمن بيبني إيه؟' },
+  { id: 'projects', label: 'إيه أهم مشاريعه؟' },
+  { id: 'tech', label: 'بيستخدم إيه من تقنيات؟' },
+  { id: 'custom', label: 'هل يقدر يبني نظام مخصص لشغلي؟' },
+  { id: 'contact', label: 'إزاي أتواصل معاه؟' },
 ];
 
 interface Message {
   id: string;
   type: 'bot' | 'user';
   text: string;
-}
-
-const containsAny = (value: string, keywords: string[]) =>
-  keywords.some((keyword) => value.includes(keyword));
-
-const isArabicText = (value: string) => /[\u0600-\u06FF]/.test(value);
-
-function getSmartReply(rawText: string): string {
-  const original = rawText.trim();
-  const text = original.toLowerCase();
-  const replyInArabic = isArabicText(original);
-
-  if (containsAny(text, ['hello', 'hi', 'hey', 'good morning', 'good evening', 'اهلا', 'أهلا', 'السلام', 'مرحبا', 'هاي'])) {
-    return replyInArabic
-      ? 'أهلًا! أنا جودي، مساعد أبو العلا. أقدر أعرّفك بسرعة على عبد الرحمن، نوع الأنظمة التي يبنيها، المشاريع المعروضة، طريقة العمل، أو طرق التواصل.'
-      : 'Hi! I’m Judy, Abouelella’s assistant. I can help you explore Abdelrahman’s work, systems, process, technical stack, and contact options.';
-  }
-
-  if (containsAny(text, ['who', 'about', 'عبد الرحمن', 'عبدالرحمن', 'مين', 'من هو', 'تعريف', 'about you'])) {
-    return replyInArabic
-      ? 'عبد الرحمن مطور Full-Stack يركز على بناء أنظمة وبرامج مخصصة للأعمال. قوته في تحويل فكرة أو احتياج تشغيلي إلى نظام عملي: قاعدة بيانات منظمة، منطق خلفي، صلاحيات، تقارير، أتمتة، وواجهة واضحة.'
-      : 'Abdelrahman is a Full-Stack Developer focused on custom business systems. He turns operational needs into usable software: structured databases, backend logic, access control, reporting, automation, and clean interfaces.';
-  }
-
-  if (containsAny(text, ['build', 'services', 'what can', 'software', 'system', 'systems', 'program', 'تعمل', 'تبني', 'بناء', 'برنامج', 'برامج', 'نظام', 'انظمة', 'أنظمة'])) {
-    return replyInArabic
-      ? 'يقدر يبني برامج وأنظمة مخصصة مثل: منصات العملاء والمبيعات، أنظمة التشغيل وسير العمل، HR، الفوترة والتقارير، لوحات الإدارة، بوابات المستخدمين، وأتمتة المهام المتكررة. الفكرة الأساسية: برنامج معمول على طريقة شغلك، مش قالب جاهز.'
-      : 'He can build custom systems such as CRM and sales platforms, workflow tools, HR systems, billing and reporting dashboards, admin portals, user portals, and automation flows. The goal is software shaped around how the business actually works.';
-  }
-
-  if (containsAny(text, ['project', 'projects', 'case', 'portfolio', 'systems', 'examples', 'اعمال', 'أعمال', 'مشاريع', 'مشروعات', 'انظمة مختارة', 'أنظمة مختارة', 'امثلة', 'أمثلة'])) {
-    return replyInArabic
-      ? 'الأنظمة المختارة في الموقع تعرض 3 اتجاهات قوية:\n\n1. Deyrna: منصة تشغيل مجتمعات وعقارات.\n2. Ad Spy Hub: منصة أتمتة وتحليل إعلانات بالذكاء الاصطناعي.\n3. Investor News Intelligence: Backend لتحويل أخبار السوق إلى ذكاء استثماري موثق بالمصادر.\n\nاستخدم زر "استعرض الأنظمة" لفتح المعروضات.'
-      : 'The featured systems show three different strengths:\n\n1. Deyrna: a property/community operations platform.\n2. Ad Spy Hub: an AI automation platform for ad intelligence and creative workflows.\n3. Investor News Intelligence: a backend system for source-backed investor news intelligence.\n\nUse “View Systems” to explore them.';
-  }
-
-  if (containsAny(text, ['deyrna', 'property', 'community', 'real estate', 'compound', 'ديرنا', 'عقارات', 'كومباوند', 'مجتمعات'])) {
-    return replyInArabic
-      ? 'Deyrna يوضح قدرة عبد الرحمن على بناء نظام تشغيل كبير متعدد التطبيقات: Resident App، Community HQ، Gate Access، FM/Maintenance، Amenities، Governance، Comms، وAnalytics. المشروع يعرض خبرة في الواجهات، التدفقات، الصلاحيات، وتجربة المستخدم.'
-      : 'Deyrna shows Abdelrahman’s ability to build a large multi-app operations platform: Resident App, Community HQ, Gate Access, FM/Maintenance, Amenities, Governance, Comms, and Analytics. It highlights UI architecture, workflows, permissions, and user experience.';
-  }
-
-  if (containsAny(text, ['ad spy', 'adspy', 'ads', 'advertising', 'creative', 'ai automation', 'اعلانات', 'إعلانات', 'اد سباي', 'ذكاء اصطناعي', 'اوتوميشن', 'أتمتة'])) {
-    return replyInArabic
-      ? 'Ad Spy Hub يعرض نظام أتمتة بالذكاء الاصطناعي يحوّل إشارات الإعلانات المنافسة إلى تحليل منظم، أفكار إبداعية، برومبتات، نسخ متعددة، ومخرجات جاهزة للنشر. الهدف هو فهم النمط الناجح وتكييفه للبراند، وليس نسخ المنافسين.'
-      : 'Ad Spy Hub demonstrates an AI automation system that turns competitor ad signals into structured analysis, creative direction, prompts, generated variants, and publishing assets. The goal is to adapt winning patterns to a brand, not copy competitors.';
-  }
-
-  if (containsAny(text, ['investor', 'news', 'backend', 'supabase', 'postgres', 'rls', 'database', 'استثمار', 'اخبار', 'أخبار', 'باك اند', 'خلفية', 'قاعدة بيانات', 'بوستجرس'])) {
-    return replyInArabic
-      ? 'Investor News Intelligence يركز على الباك إند وقاعدة البيانات: PostgreSQL/Supabase، Multi-tenant structure، RLS، تتبع المصادر، تحليل AI، تنبيهات، وتدقيق. مناسب لإظهار قوة عبد الرحمن في تصميم السكيمة والأمان والمنطق الخلفي.'
-      : 'Investor News Intelligence focuses on backend and database engineering: PostgreSQL/Supabase, multi-tenant structure, RLS, source tracking, AI analysis, alerts, and auditability. It shows Abdelrahman’s strength in schema design, security, and backend logic.';
-  }
-
-  if (containsAny(text, ['tech', 'stack', 'tools', 'react', 'next', 'typescript', 'tailwind', 'node', 'api', 'تقنيات', 'ادوات', 'أدوات', 'ستاك', 'تكنولوجيا'])) {
-    return replyInArabic
-      ? 'الستاك المعروض يشمل: React / Next.js، TypeScript، Tailwind، Node.js / Express، REST/RPC APIs، PostgreSQL/Supabase، RBAC/RLS، تقارير، Analytics، أتمتة، Jobs، Notifications، Git، Type Checks، Build Validation، وتوثيق وتسليم.'
-      : 'The stack includes React / Next.js, TypeScript, Tailwind, Node.js / Express, REST/RPC APIs, PostgreSQL/Supabase, RBAC/RLS, reporting, analytics, automation, jobs, notifications, Git workflows, type checks, build validation, and handover documentation.';
-  }
-
-  if (containsAny(text, ['process', 'work', 'steps', 'method', 'how do you work', 'طريقة العمل', 'خطوات', 'تشتغل', 'تعمل ازاي', 'ازاي'])) {
-    return replyInArabic
-      ? 'طريقة العمل عادة تبدأ بفهم سير العمل الحقيقي، ثم تصميم نموذج البيانات، بناء منطق الخلفية، تشكيل الواجهة، إضافة التقارير والأتمتة، ثم الاختبار والتسليم. الهدف أن النظام يطلع واضح، قابل للتوسع، وسهل الاستخدام.'
-      : 'The process usually starts with understanding the real workflow, then designing the data model, building backend logic, shaping the interface, adding reporting and automation, then testing and handover. The goal is a clear, scalable, usable system.';
-  }
-
-  if (containsAny(text, ['why', 'choose', 'value', 'different', 'work with', 'لماذا', 'ليه', 'القيمة', 'مختلف', 'العمل معي'])) {
-    return replyInArabic
-      ? 'القيمة الأساسية في العمل معه أنه لا يبدأ من الشاشة فقط. هو يفهم طريقة التشغيل، يبني قاعدة البيانات والمنطق والصلاحيات والتقارير، ثم يضع واجهة تجعل النظام سهلًا على المستخدم. النتيجة برنامج يخدم العمل فعلًا.'
-      : 'The main value is that he does not start only from the screen. He understands the workflow, builds the database, logic, permissions, and reporting, then creates an interface that makes the system usable. The result is software that actually serves the business.';
-  }
-
-  if (containsAny(text, ['full stack', 'frontend', 'front-end', 'ui', 'ux', 'backend', 'back-end', 'فل ستاك', 'فرونت', 'واجهة', 'باك', 'خلفية'])) {
-    return replyInArabic
-      ? 'نعم، عبد الرحمن يعرض نفسه كمطور Full-Stack لأنه يعمل على الرحلة كاملة: من البنية الخلفية وقاعدة البيانات والصلاحيات، حتى الواجهة وتجربة الاستخدام والتقارير والتسليم.'
-      : 'Yes. Abdelrahman positions himself as a Full-Stack Developer because he works across the whole system: backend, database, permissions, UI, user experience, reporting, and delivery.';
-  }
-
-  if (containsAny(text, ['cv', 'resume', 'download', 'سيرة', 'السي في', 'cv', 'تحميل'])) {
-    return replyInArabic
-      ? 'يمكنك استخدام زر Download Resume في الموقع لتحميل السيرة الذاتية. لو تريد ملخصًا سريعًا: عبد الرحمن Full-Stack Developer متخصص في أنظمة الأعمال، قواعد البيانات، الواجهات، التقارير، والأتمتة.'
-      : 'You can use the Download Resume button on the site. Quick summary: Abdelrahman is a Full-Stack Developer focused on business systems, databases, interfaces, reporting, and automation.';
-  }
-
-  if (containsAny(text, ['contact', 'email', 'meeting', 'call', 'hire', 'project', 'تواصل', 'ايميل', 'إيميل', 'مقابلة', 'اجتماع', 'مشروع', 'شغل'])) {
-    return replyInArabic
-      ? 'أفضل خطوة هي الضغط على زر "تواصل معي" أو استخدام قسم التواصل في آخر الصفحة. اكتب له باختصار: فكرة النظام، المشكلة الحالية، المستخدمين المتوقعين، وأهم 3 نتائج تريدها من البرنامج.'
-      : 'The best next step is to use the “Contact Me” button or the contact section at the bottom. Briefly share the system idea, the current problem, expected users, and the top 3 outcomes you want from the software.';
-  }
-
-  if (containsAny(text, ['price', 'cost', 'budget', 'timeline', 'time', 'سعر', 'تكلفة', 'ميزانية', 'وقت', 'مدة'])) {
-    return replyInArabic
-      ? 'التكلفة والمدة تعتمد على حجم النظام، عدد المستخدمين، الصلاحيات، التقارير، التكاملات، وهل المطلوب MVP أو نظام كامل. أفضل بداية هي وصف الفكرة والتدفقات الأساسية ليتم تقديرها بشكل منطقي.'
-      : 'Cost and timeline depend on the system size, users, permissions, reports, integrations, and whether you need an MVP or a full production system. The best start is to describe the idea and core workflows.';
-  }
-
-  return replyInArabic
-    ? 'السؤال ده محتاج إجابة مباشرة من عبد الرحمن. يمكنك التواصل معه على الرقم: +20 1201501443'
-    : 'This question needs a direct answer from Abdelrahman. You can contact him at: +20 1201501443';
 }
 
 export function ChatbotWidget() {
@@ -128,10 +33,11 @@ export function ChatbotWidget() {
     {
       id: '1',
       type: 'bot',
-      text: "أهلًا، أنا جودي — مساعد أبو العلا. اسألني عن عبد الرحمن، الأنظمة التي بناها، طريقة العمل، التقنيات، أو بدء مشروع جديد.",
+      text: "أهلًا، أنا مساعد عبد الرحمن في البورتفوليو. اسألني عن نوع الشغل اللي بيعمله، مشاريعه، مهاراته التقنية، شغل الباك إند والذكاء الاصطناعي، إزاي تحجز اجتماع، أو إزاي تحمّل الـ CV.",
     }
   ]);
   const [inputValue, setInputValue] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -141,7 +47,7 @@ export function ChatbotWidget() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isOpen]);
+  }, [messages, isOpen, isTyping]);
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
@@ -156,17 +62,31 @@ export function ChatbotWidget() {
 
     setMessages(prev => [...prev, { id: Date.now().toString(), type: 'user', text: messageText }]);
     setInputValue('');
+    setIsTyping(true);
 
-    setTimeout(() => {
+    const local = getLocalReply(messageText, UI_LANG);
+
+    const respond = (replyText: string) => {
+      setIsTyping(false);
       setMessages(prev => [
-        ...prev, 
-        { 
-          id: (Date.now() + 1).toString(), 
-          type: 'bot', 
-          text: getSmartReply(messageText),
-        }
+        ...prev,
+        { id: (Date.now() + 1).toString(), type: 'bot', text: replyText },
       ]);
-    }, 450);
+    };
+
+    // Optional AI enrichment (off unless configured via env). The local reply
+    // is always the trustworthy default, so the static build keeps working.
+    let settled = false;
+    const safety = window.setTimeout(() => {
+      if (!settled) { settled = true; respond(local.text); }
+    }, 2500);
+
+    void tryAiReply(messageText, local.lang).then((ai) => {
+      window.clearTimeout(safety);
+      if (settled) return;
+      settled = true;
+      window.setTimeout(() => respond(ai ?? local.text), 450);
+    });
   };
 
   return (
@@ -245,6 +165,23 @@ export function ChatbotWidget() {
                   </div>
                 </div>
               ))}
+
+              {isTyping && (
+                <div className="flex justify-start">
+                  <div className="w-6 h-6 rounded bg-background border border-border overflow-hidden mr-2 shrink-0 mt-1">
+                    <img src={asset("judy-avatar.png")} alt="Assistant avatar" className="w-full h-full object-cover" />
+                  </div>
+                  <div
+                    className="bg-background text-foreground border-2 border-border shadow-sm p-3 flex items-center gap-1"
+                    style={{ borderRadius: '12px 12px 12px 0' }}
+                    aria-label="المساعد يكتب"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-foreground/50 animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <span className="w-1.5 h-1.5 rounded-full bg-foreground/50 animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <span className="w-1.5 h-1.5 rounded-full bg-foreground/50 animate-bounce" style={{ animationDelay: '300ms' }} />
+                  </div>
+                </div>
+              )}
 
               {messages.length === 1 && (
                 <div className="flex flex-col gap-2 mt-6 pt-2">
