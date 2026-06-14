@@ -1,6 +1,8 @@
 import { motion } from "motion/react";
 import { Linkedin, Mail } from "lucide-react";
 
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
+
 type Language = "en" | "ar";
 
 type IconProps = {
@@ -26,7 +28,7 @@ function WhatsAppIcon({ className }: IconProps) {
 }
 
 const socialLinks = [
-  { label: "CV", href: "/Abdelrahman_Abouelella_CV.docx", download: true },
+  { label: "CV", href: asset("Abdelrahman_Abouelella_CV.docx"), download: true },
   { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/abdelrahman-abouelella-2bb80a388/", external: true },
   { icon: WhatsAppIcon, label: "WhatsApp", href: "https://wa.me/201117739645", external: true },
   { icon: Mail, label: "Email", href: "mailto:abdo.abouelella96@gmail.com" },
@@ -44,7 +46,7 @@ export function Hero({ language = "en" }: { language?: Language }) {
       {/* Full hero sketch image */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <img
-          src="/portrait.png"
+          src={asset("portrait.png")}
           alt="Pencil sketch portrait of Abdelrahman in a business systems workspace"
           className={`h-full w-full object-cover object-center pointer-events-none select-none opacity-100 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
             isArabic

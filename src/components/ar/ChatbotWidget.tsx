@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MessageSquare, X, Send, ChevronDown } from 'lucide-react';
 
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
+
 interface QuickAction {
   id: string;
   label: string;
@@ -199,7 +201,7 @@ export function ChatbotWidget() {
             <div className="p-4 border-b-2 border-border bg-surface flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 sketch-border bg-background overflow-hidden shrink-0">
-                  <img src="/judy-avatar.png" alt="Judy assistant avatar" className="w-full h-full object-cover" />
+                  <img src={asset("judy-avatar.png")} alt="Judy assistant avatar" className="w-full h-full object-cover" />
                 </div>
                 <div>
                   <h3 className="font-bold text-sm text-foreground uppercase tracking-widest">جودي · مساعد أبو العلا</h3>
@@ -226,7 +228,7 @@ export function ChatbotWidget() {
                 <div key={msg.id} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
                   {msg.type === 'bot' && (
                     <div className="w-6 h-6 rounded bg-background border border-border overflow-hidden mr-2 shrink-0 mt-1">
-                      <img src="/judy-avatar.png" alt="Judy assistant avatar" className="w-full h-full object-cover" />
+                      <img src={asset("judy-avatar.png")} alt="Judy assistant avatar" className="w-full h-full object-cover" />
                     </div>
                   )}
                   <div 

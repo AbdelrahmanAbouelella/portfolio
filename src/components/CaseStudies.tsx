@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
+
 type InvestorFrameKey =
   | "architecture"
   | "dataModel"
@@ -32,15 +34,15 @@ const studies: Study[] = [
     modules: ["Resident Apps", "Gate Access", "Operations HQ", "Analytics"],
     architecture: "Multi-App • Mobile • Operations • Dashboards",
     gallery: [
-      { title: "Community HQ", image: "/deyrna-residents.png" },
-      { title: "Resident App", image: "/deyrna-resident-app.png" },
-      { title: "Governance", image: "/deyrna-governance.png" },
-      { title: "Gate Access", image: "/deyrna-gate-access.png" },
-      { title: "FM Field", image: "/deyrna-fm-tasks.png" },
-      { title: "Amenities Booking", image: "/deyrna-amenities.png" },
-      { title: "Comms Inbox", image: "/deyrna-comms-inbox.png" },
-      { title: "Maintenance Command", image: "/deyrna-maintenance-command.png" },
-      { title: "Analytics · Operational Insight", image: "/deyrna-analytics.png" }
+      { title: "Community HQ", image: asset("deyrna-residents.png") },
+      { title: "Resident App", image: asset("deyrna-resident-app.png") },
+      { title: "Governance", image: asset("deyrna-governance.png") },
+      { title: "Gate Access", image: asset("deyrna-gate-access.png") },
+      { title: "FM Field", image: asset("deyrna-fm-tasks.png") },
+      { title: "Amenities Booking", image: asset("deyrna-amenities.png") },
+      { title: "Comms Inbox", image: asset("deyrna-comms-inbox.png") },
+      { title: "Maintenance Command", image: asset("deyrna-maintenance-command.png") },
+      { title: "Analytics · Operational Insight", image: asset("deyrna-analytics.png") }
     ]
   },
   {
@@ -50,15 +52,15 @@ const studies: Study[] = [
     modules: ["Signal Discovery", "Creative Breakdown", "Variant Generation", "Publishing"],
     architecture: "Automation Pipeline • AI Generation • Creative Ops • Publishing",
     gallery: [
-      { title: "The Pipeline", image: "/adspy-pipeline.png" },
-      { title: "Product Input", image: "/adspy-product-input.png" },
-      { title: "Signal Discovery", image: "/adspy-signal-discovery.png" },
-      { title: "Creative Breakdown", image: "/adspy-creative-breakdown.png" },
-      { title: "Brand Adaptation", image: "/adspy-brand-adaptation.png" },
-      { title: "AI Generation", image: "/adspy-ai-generation.png" },
-      { title: "Variant Studio", image: "/adspy-variant-studio.png" },
-      { title: "Final Output", image: "/adspy-final-output.png" },
-      { title: "Publishing", image: "/adspy-publishing.png" }
+      { title: "The Pipeline", image: asset("adspy-pipeline.png") },
+      { title: "Product Input", image: asset("adspy-product-input.png") },
+      { title: "Signal Discovery", image: asset("adspy-signal-discovery.png") },
+      { title: "Creative Breakdown", image: asset("adspy-creative-breakdown.png") },
+      { title: "Brand Adaptation", image: asset("adspy-brand-adaptation.png") },
+      { title: "AI Generation", image: asset("adspy-ai-generation.png") },
+      { title: "Variant Studio", image: asset("adspy-variant-studio.png") },
+      { title: "Final Output", image: asset("adspy-final-output.png") },
+      { title: "Publishing", image: asset("adspy-publishing.png") }
     ]
   },
   {

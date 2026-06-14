@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
+
 type InvestorFrameKey =
   | "architecture"
   | "dataModel"
@@ -32,15 +34,15 @@ const studies: Study[] = [
     modules: ["تطبيقات السكان", "الدخول من البوابات", "مركز العمليات", "التحليلات"],
     architecture: "تطبيقات متعددة • موبايل • تشغيل • لوحات متابعة",
     gallery: [
-      { title: "مركز إدارة المجتمع", image: "/deyrna-residents.png" },
-      { title: "تطبيق السكان", image: "/deyrna-resident-app.png" },
-      { title: "الحوكمة", image: "/deyrna-governance.png" },
-      { title: "الدخول من البوابات", image: "/deyrna-gate-access.png" },
-      { title: "فرق الصيانة الميدانية", image: "/deyrna-fm-tasks.png" },
-      { title: "حجز المرافق", image: "/deyrna-amenities.png" },
-      { title: "صندوق التواصل", image: "/deyrna-comms-inbox.png" },
-      { title: "مركز قيادة الصيانة", image: "/deyrna-maintenance-command.png" },
-      { title: "تحليلات · رؤية تشغيلية", image: "/deyrna-analytics.png" }
+      { title: "مركز إدارة المجتمع", image: asset("deyrna-residents.png") },
+      { title: "تطبيق السكان", image: asset("deyrna-resident-app.png") },
+      { title: "الحوكمة", image: asset("deyrna-governance.png") },
+      { title: "الدخول من البوابات", image: asset("deyrna-gate-access.png") },
+      { title: "فرق الصيانة الميدانية", image: asset("deyrna-fm-tasks.png") },
+      { title: "حجز المرافق", image: asset("deyrna-amenities.png") },
+      { title: "صندوق التواصل", image: asset("deyrna-comms-inbox.png") },
+      { title: "مركز قيادة الصيانة", image: asset("deyrna-maintenance-command.png") },
+      { title: "تحليلات · رؤية تشغيلية", image: asset("deyrna-analytics.png") }
     ]
   },
   {
@@ -50,15 +52,15 @@ const studies: Study[] = [
     modules: ["اكتشاف الإشارات", "تحليل الفكرة الإعلانية", "توليد النسخ", "النشر"],
     architecture: "خط أتمتة • توليد بالذكاء الاصطناعي • عمليات إبداعية • نشر",
     gallery: [
-      { title: "خط الأتمتة", image: "/adspy-pipeline.png" },
-      { title: "إدخال المنتج", image: "/adspy-product-input.png" },
-      { title: "اكتشاف الإشارات", image: "/adspy-signal-discovery.png" },
-      { title: "تحليل الفكرة الإعلانية", image: "/adspy-creative-breakdown.png" },
-      { title: "تكييف الفكرة مع البراند", image: "/adspy-brand-adaptation.png" },
-      { title: "توليد بالذكاء الاصطناعي", image: "/adspy-ai-generation.png" },
-      { title: "استوديو النسخ", image: "/adspy-variant-studio.png" },
-      { title: "المخرجات النهائية", image: "/adspy-final-output.png" },
-      { title: "النشر", image: "/adspy-publishing.png" }
+      { title: "خط الأتمتة", image: asset("adspy-pipeline.png") },
+      { title: "إدخال المنتج", image: asset("adspy-product-input.png") },
+      { title: "اكتشاف الإشارات", image: asset("adspy-signal-discovery.png") },
+      { title: "تحليل الفكرة الإعلانية", image: asset("adspy-creative-breakdown.png") },
+      { title: "تكييف الفكرة مع البراند", image: asset("adspy-brand-adaptation.png") },
+      { title: "توليد بالذكاء الاصطناعي", image: asset("adspy-ai-generation.png") },
+      { title: "استوديو النسخ", image: asset("adspy-variant-studio.png") },
+      { title: "المخرجات النهائية", image: asset("adspy-final-output.png") },
+      { title: "النشر", image: asset("adspy-publishing.png") }
     ]
   },
   {
