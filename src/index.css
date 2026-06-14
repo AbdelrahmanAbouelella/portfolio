@@ -305,3 +305,56 @@
     transform-origin: bottom left;
   }
 }
+
+/* FINAL CONTACT SECTION CONTRAST FIX */
+#contact,
+#contact * {
+  color: #111111 !important;
+  opacity: 1 !important;
+}
+
+#contact input,
+#contact textarea {
+  color: #111111 !important;
+  border-bottom-color: rgba(17, 17, 17, 0.65) !important;
+  caret-color: #111111 !important;
+}
+
+#contact input::placeholder,
+#contact textarea::placeholder {
+  color: #111111 !important;
+  opacity: 1 !important;
+}
+
+#contact .sketch-border::before,
+#contact .sketch-border::after {
+  border-color: #111111 !important;
+  opacity: 0.55 !important;
+}
+
+#contact a {
+  color: #111111 !important;
+}
+
+#contact a:hover {
+  background: #111111 !important;
+  color: #f4f3ef !important;
+}
+
+#contact a:hover *,
+#contact a:hover svg {
+  color: #f4f3ef !important;
+  stroke: currentColor !important;
+}
+
+#contact button[type="submit"] {
+  background: #111111 !important;
+  color: #f4f3ef !important;
+  border-color: #111111 !important;
+}
+
+#contact button[type="submit"] *,
+#contact button[type="submit"] svg {
+  color: #f4f3ef !important;
+  stroke: currentColor !important;
+}
