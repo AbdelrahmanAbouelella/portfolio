@@ -16,7 +16,7 @@ import { TechStack } from "./components/TechStack";
 import { WhyMe } from "./components/WhyMe";
 import { CTA } from "./components/CTA";
 import { Footer } from "./components/Footer";
-import { ChatbotWidget } from "./components/ChatbotWidget";
+import { ConvocoreWidget } from "./components/ConvocoreWidget";
 
 import { Comparison as ComparisonAr } from "./components/ar/Comparison";
 import { Capabilities as CapabilitiesAr } from "./components/ar/Capabilities";
@@ -27,7 +27,6 @@ import { TechStack as TechStackAr } from "./components/ar/TechStack";
 import { WhyMe as WhyMeAr } from "./components/ar/WhyMe";
 import { CTA as CTAAr } from "./components/ar/CTA";
 import { Footer as FooterAr } from "./components/ar/Footer";
-import { ChatbotWidget as ChatbotWidgetAr } from "./components/ar/ChatbotWidget";
 
 type Language = "en" | "ar";
 
@@ -82,7 +81,7 @@ export default function App() {
         </main>
 
         {isArabic ? <FooterAr /> : <Footer />}
-        {isArabic ? <ChatbotWidgetAr /> : <ChatbotWidget />}
+        <ConvocoreWidget language={language} />
       </div>
     </div>
   );

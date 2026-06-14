@@ -358,3 +358,151 @@
   color: #f4f3ef !important;
   stroke: currentColor !important;
 }
+
+
+/* Convocore widget: portfolio theme bridge.
+   Scoped to #VG_OVERLAY_CONTAINER so it does not affect the portfolio UI. */
+#VG_OVERLAY_CONTAINER {
+  --ab-bg: #f4f3ef;
+  --ab-surface: #ecebe6;
+  --ab-ink: #111111;
+  --ab-muted: #525252;
+  --ab-border: #c4c2ba;
+  --ab-gold: #d59a52;
+  --ab-dark: #161616;
+  font-family: Inter, "IBM Plex Sans Arabic", system-ui, sans-serif !important;
+}
+
+#VG_OVERLAY_CONTAINER * {
+  font-family: Inter, "IBM Plex Sans Arabic", system-ui, sans-serif !important;
+}
+
+#VG_OVERLAY_CONTAINER [class*="launcher"],
+#VG_OVERLAY_CONTAINER [class*="trigger"],
+#VG_OVERLAY_CONTAINER [class*="bubble"],
+#VG_OVERLAY_CONTAINER [class*="chat-button"] {
+  background: var(--ab-dark) !important;
+  color: var(--ab-bg) !important;
+  border: 2px solid var(--ab-dark) !important;
+  border-radius: 4px !important;
+  box-shadow: 5px 6px 0 rgba(17, 17, 17, 0.18) !important;
+}
+
+#VG_OVERLAY_CONTAINER [class*="window"],
+#VG_OVERLAY_CONTAINER [class*="panel"],
+#VG_OVERLAY_CONTAINER [class*="chat-container"],
+#VG_OVERLAY_CONTAINER [class*="conversation"] {
+  background: var(--ab-bg) !important;
+  color: var(--ab-ink) !important;
+  border: 1px dashed rgba(17, 17, 17, 0.45) !important;
+  border-radius: 6px !important;
+  box-shadow: 10px 14px 0 rgba(17, 17, 17, 0.12) !important;
+}
+
+#VG_OVERLAY_CONTAINER [class*="header"],
+#VG_OVERLAY_CONTAINER [class*="topbar"] {
+  background: var(--ab-dark) !important;
+  color: var(--ab-bg) !important;
+  border-bottom: 3px solid var(--ab-gold) !important;
+  border-radius: 0 !important;
+}
+
+#VG_OVERLAY_CONTAINER [class*="header"] *,
+#VG_OVERLAY_CONTAINER [class*="topbar"] * {
+  color: var(--ab-bg) !important;
+}
+
+#VG_OVERLAY_CONTAINER [class*="bot-message"],
+#VG_OVERLAY_CONTAINER [class*="assistant-message"],
+#VG_OVERLAY_CONTAINER [class*="message-bot"],
+#VG_OVERLAY_CONTAINER [class*="assistant"] {
+  background: var(--ab-surface) !important;
+  color: var(--ab-ink) !important;
+  border: 1px dashed rgba(17, 17, 17, 0.35) !important;
+  border-radius: 6px !important;
+  box-shadow: 3px 4px 0 rgba(17, 17, 17, 0.08) !important;
+}
+
+#VG_OVERLAY_CONTAINER [class*="user-message"],
+#VG_OVERLAY_CONTAINER [class*="message-user"],
+#VG_OVERLAY_CONTAINER [class*="human"] {
+  background: var(--ab-dark) !important;
+  color: var(--ab-bg) !important;
+  border-radius: 6px !important;
+  box-shadow: 3px 4px 0 rgba(17, 17, 17, 0.14) !important;
+}
+
+#VG_OVERLAY_CONTAINER [class*="message"] *,
+#VG_OVERLAY_CONTAINER [class*="bot"] *,
+#VG_OVERLAY_CONTAINER [class*="assistant"] *,
+#VG_OVERLAY_CONTAINER [class*="user"] * {
+  line-height: 1.6 !important;
+}
+
+#VG_OVERLAY_CONTAINER textarea,
+#VG_OVERLAY_CONTAINER input,
+#VG_OVERLAY_CONTAINER [class*="input"],
+#VG_OVERLAY_CONTAINER [class*="composer"],
+#VG_OVERLAY_CONTAINER [class*="footer"] {
+  background: var(--ab-bg) !important;
+  color: var(--ab-ink) !important;
+}
+
+#VG_OVERLAY_CONTAINER textarea,
+#VG_OVERLAY_CONTAINER input[type="text"] {
+  border-radius: 0 !important;
+  border: 0 !important;
+  border-bottom: 2px solid rgba(17, 17, 17, 0.45) !important;
+  font-weight: 600 !important;
+}
+
+#VG_OVERLAY_CONTAINER textarea::placeholder,
+#VG_OVERLAY_CONTAINER input::placeholder {
+  color: rgba(17, 17, 17, 0.65) !important;
+  opacity: 1 !important;
+}
+
+#VG_OVERLAY_CONTAINER [class*="send"],
+#VG_OVERLAY_CONTAINER button[type="submit"] {
+  background: var(--ab-dark) !important;
+  color: var(--ab-bg) !important;
+  border: 2px solid var(--ab-dark) !important;
+  border-radius: 4px !important;
+}
+
+#VG_OVERLAY_CONTAINER [class*="send"]:hover,
+#VG_OVERLAY_CONTAINER button[type="submit"]:hover {
+  background: var(--ab-gold) !important;
+  color: var(--ab-ink) !important;
+  border-color: var(--ab-gold) !important;
+}
+
+#VG_OVERLAY_CONTAINER [class*="choice"],
+#VG_OVERLAY_CONTAINER [class*="suggestion"],
+#VG_OVERLAY_CONTAINER [class*="chip"],
+#VG_OVERLAY_CONTAINER [class*="quick"] {
+  background: var(--ab-bg) !important;
+  color: var(--ab-ink) !important;
+  border: 1px dashed rgba(17, 17, 17, 0.4) !important;
+  border-radius: 4px !important;
+  font-weight: 700 !important;
+}
+
+#VG_OVERLAY_CONTAINER [class*="choice"]:hover,
+#VG_OVERLAY_CONTAINER [class*="suggestion"]:hover,
+#VG_OVERLAY_CONTAINER [class*="chip"]:hover,
+#VG_OVERLAY_CONTAINER [class*="quick"]:hover {
+  background: var(--ab-dark) !important;
+  color: var(--ab-bg) !important;
+}
+
+#VG_OVERLAY_CONTAINER img,
+#VG_OVERLAY_CONTAINER [class*="avatar"] {
+  border-radius: 4px !important;
+}
+
+#VG_OVERLAY_CONTAINER a {
+  color: var(--ab-ink) !important;
+  text-decoration-color: var(--ab-gold) !important;
+  text-underline-offset: 4px !important;
+}

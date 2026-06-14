@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { motion } from "motion/react";
 import { Linkedin, Mail } from "lucide-react";
 
 const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
+const CALENDLY_URL = "https://calendly.com/abdo-abouelella96/meet-with-abdelrahman";
 
 type Language = "en" | "ar";
 
@@ -36,6 +38,7 @@ const socialLinks = [
 
 export function Hero({ language = "en" }: { language?: Language }) {
   const isArabic = language === "ar";
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   return (
     <section
@@ -190,15 +193,39 @@ export function Hero({ language = "en" }: { language?: Language }) {
             >
               {isArabic ? "تواصل معي" : "Contact Me"}
             </a>
-            <a
-              href="#projects"
+                        <button
+              type="button"
+              onClick={() => setIsBookingOpen(true)}
               className="hero-sketch-button-secondary w-full sm:w-auto text-center px-12 py-5 tracking-[0.1em] uppercase text-sm font-bold relative z-10 backdrop-blur-sm"
             >
-              {isArabic ? "استعرض الأنظمة" : "View Systems"}
-            </a>
+              {isArabic ? "احجز اجتماع" : "Book Meeting"}
+            </button>
           </div>
         </motion.div>
       </div>
+      {isBookingOpen && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 px-4 py-6"
+          role="dialog"
+          aria-modal="true"
+          aria-label={isArabic ? "حجز اجتماع" : "Book a meeting"}
+        >
+          <div className="relative h-[82vh] w-full max-w-5xl overflow-hidden bg-background sketch-border shadow-2xl">
+            <button
+              type="button"
+              onClick={() => setIsBookingOpen(false)}
+              className="absolute right-4 top-4 z-10 rounded-full bg-foreground px-4 py-2 text-sm font-bold text-background"
+            >
+              {isArabic ? "إغلاق" : "Close"}
+            </button>
+            <iframe
+              title={isArabic ? "حجز اجتماع مع عبد الرحمن" : "Book a meeting with Abdelrahman"}
+              src={CALENDLY_URL}
+              className="h-full w-full border-0"
+            />
+          </div>
+        </div>
+      )}
     </section>
   );
 }
