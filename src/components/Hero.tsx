@@ -168,7 +168,7 @@ export function Hero({ language = "en" }: { language?: Language }) {
 
           <p className={`text-base md:text-xl text-[#f2eadf] leading-relaxed font-semibold mb-12 max-w-2xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.28)] ${isArabic ? "ml-auto" : ""}`}>
             {isArabic
-              ? "أحوّل الأفكار إلى برامج عملية، مبنية بوضوح ودقة، وجاهزة للتشغيل."
+              ? "أحوّل الأفكار إلى برامج عملية، مبنية بوضوح ودقة، وجاهزة للعمل في بيئة الإنتاج."
               : "I turn ideas into custom software, engineered with clarity, precision, and production-ready execution."}
           </p>
 
