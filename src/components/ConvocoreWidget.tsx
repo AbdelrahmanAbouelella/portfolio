@@ -61,13 +61,5 @@ export function ConvocoreWidget({ language = "en" }: { language?: Language }) {
     };
   }, [language]);
 
-  return (
-    <div
-      id="VG_OVERLAY_CONTAINER"
-      className="convocore-portfolio-widget"
-      style={{ width: 0, height: 0 }}
-      data-language={language}
-      aria-hidden="false"
-    />
-  );
+  return <div id="VG_OVERLAY_CONTAINER" style={{ width: 0, height: 0 }} data-language={language} aria-hidden="false" />;
 }
