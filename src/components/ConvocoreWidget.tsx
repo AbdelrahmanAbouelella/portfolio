@@ -21,7 +21,7 @@ declare global {
   }
 }
 
-const CONVOCORE_AGENT_ID = "TCicuXkIPVvxdDpt";
+const CONVOCORE_AGENT_ID = "wvqfGhaDgCmFlhPo";
 const CONVOCORE_REGION = "na";
 const CONVOCORE_BUNDLE_SRC = "https://vg-bunny-cdn.b-cdn.net/vg_live_build/vg_bundle.js";
 const CONVOCORE_STYLESHEET = "https://vg-bunny-cdn.b-cdn.net/vg_live_build/styles.css";
